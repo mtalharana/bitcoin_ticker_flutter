@@ -39,25 +39,25 @@ const apiKey = ' B8662A95-059D-4ADB-B3AB-9DAA9B974D43';
 String selectedcoin = 'BTC';
 
 class CoinData {
-  Future<List<String>> getCoindata(String currency) async {
+  Future<Map<String, String>> getCoindata(String currency) async {
+    Map<String, String> prices = {};
     for (String coin in cryptoList) {
       selectedcoin = coin;
-    }
 
-    List<String> prices = [];
-    String url =
-        'https://rest.coinapi.io/v1/exchangerate/$selectedcoin/$currency?apikey=B8662A95-059D-4ADB-B3AB-9DAA9B974D43#';
-    var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      var decodedData = jsonDecode(response.body);
-      double lastPrice = decodedData['rate'];
-      var f = NumberFormat.compactCurrency(locale: 'ur', name: '')
-          .format(lastPrice);
-      prices.add(f);
-      return prices;
-    } else {
-      print(response.statusCode);
-      throw 'Problem with the get request';
+      String url =
+          'https://rest.coinapi.io/v1/exchangerate/$selectedcoin/$currency?apikey=B8662A95-059D-4ADB-B3AB-9DAA9B974D43#';
+      var response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        var decodedData = jsonDecode(response.body);
+        double lastPrice = decodedData['rate'];
+        var f = NumberFormat.compactCurrency(locale: 'ur', name: '')
+            .format(lastPrice);
+        prices[coin] = f;
+      } else {
+        print(response.statusCode);
+        throw 'Problem with the get request';
+      }
     }
+    return prices;
   }
 }

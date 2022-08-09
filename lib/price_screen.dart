@@ -20,16 +20,22 @@ class _PriceScreenState extends State<PriceScreen> {
     return dropdownItems;
   }
 
-  String value = 'no value';
+  bool isLoading = false;
+  Map<String, String> value = {};
   String selectedCurrency = 'PKR';
   String selectedCrypto = 'BTC';
 
   void getvalue() async {
-    String value = await CoinData().getCoindata(selectedCurrency);
-    print(value);
-    setState(() {
-      value = value;
-    });
+    isLoading = true;
+    try {
+      Map<String, String> data = await CoinData().getCoindata(selectedCurrency);
+      isLoading = false;
+      setState(() {
+        value = data;
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -52,18 +58,18 @@ class _PriceScreenState extends State<PriceScreen> {
           Column(
             children: [
               Tickercard(
-                  value: value,
+                  value: isLoading ? 'Loading...' : value[selectedCrypto],
                   selectedCurrency: selectedCurrency,
-                  crypto: selectedCrypto),
+                  crypto: 'BTC'),
               Tickercard(
-                value: value,
+                value: isLoading ? 'Loading...' : value['ETH'],
                 selectedCurrency: selectedCurrency,
-                crypto: selectedCrypto,
+                crypto: 'ETH',
               ),
               Tickercard(
-                value: value,
+                value: isLoading ? 'Loading...' : value['LTC'],
                 selectedCurrency: selectedCurrency,
-                crypto: selectedCrypto,
+                crypto: 'LTC',
               ),
             ],
           ),
@@ -99,9 +105,9 @@ class Tickercard extends StatelessWidget {
     required this.crypto,
   }) : super(key: key);
 
-  final String value;
-  final String selectedCurrency;
-  final String crypto;
+  final String? value;
+  final String? selectedCurrency;
+  final String? crypto;
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +122,7 @@ class Tickercard extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 28.0),
           child: Text(
-            '1 BTC = $value $selectedCurrency ',
+            '1 $crypto = $value $selectedCurrency ',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20.0,
