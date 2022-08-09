@@ -1,8 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages, avoid_web_libraries_in_flutter, unused_import, avoid_print
 
-import 'dart:html';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 const List<String> currenciesList = [
   'AUD',
@@ -36,26 +36,27 @@ const List<String> cryptoList = [
 ];
 const coinAPIURL = 'https://rest.coinapi.io/v1/exchangerate';
 const apiKey = ' B8662A95-059D-4ADB-B3AB-9DAA9B974D43';
+String selectedcoin = 'BTC';
 
 class CoinData {
-  CoinData({required this.currency, required this.coin, required this.price});
-  final String currency;
-  final String coin;
-  final double price;
+  Future<List<String>> getCoindata(String currency) async {
+    for (String coin in cryptoList) {
+      selectedcoin = coin;
+    }
 
-  Future<dynamic> getCoindata() async {
+    List<String> prices = [];
     String url =
-        'https://rest.coinapi.io/v1/exchangerate/$coin/$currency?apikey=B8662A95-059D-4ADB-B3AB-9DAA9B974D43#';
+        'https://rest.coinapi.io/v1/exchangerate/$selectedcoin/$currency?apikey=B8662A95-059D-4ADB-B3AB-9DAA9B974D43#';
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
       var decodedData = jsonDecode(response.body);
-      var lastPrice = decodedData['rate'];
-      //9. Output the lastPrice from the method.
-      return lastPrice;
+      double lastPrice = decodedData['rate'];
+      var f = NumberFormat.compactCurrency(locale: 'ur', name: '')
+          .format(lastPrice);
+      prices.add(f);
+      return prices;
     } else {
-      //10. Handle any errors that occur during the request.
       print(response.statusCode);
-      //Optional: throw an error if our request fails.
       throw 'Problem with the get request';
     }
   }
