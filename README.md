@@ -1,16 +1,14 @@
-# bitcoin_ticker_flutter
+# 7. Cryptocurrency Price Tracker(Urdu)
 
-A new Flutter project.
+The Cryptocurrency Price Tracker(Urdu) was implemented to learn about the dropdown widget, utilizing loops, API integration, and JSON Handling. 
+Code:
+https://github.com/mtalharana/bitcoin_ticker_flutter
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+Stay Tuned for my Thrilling, Consistent, and problem-solving flutter journey.
 
-A few resources to get you started if this is your first Flutter project:
+Please react with Love, Comment, Repost, or send it to those you care much, about this fantastic journey.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+ #flutter  #lahorejobs  #hr #hiring
+#flutterdev #fluttercommunity #flutterjobs
